@@ -1,6 +1,10 @@
 package com.example.carrotMarket.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.carrotMarket.dto.MemberResDto;
+import com.example.carrotMarket.entity.member.Member;
 import com.example.carrotMarket.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -11,4 +15,12 @@ public class MemberService {
 
 	private final MemberRepository memberRepository;
 
+	@Transactional(readOnly = true)
+	public MemberResDto getMyProfile(Long id) {
+		Member findMember = memberRepository.findById(id).orElseThrow(
+			() -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+		);
+
+		return new MemberResDto(findMember);
+	}
 }
