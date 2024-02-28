@@ -32,6 +32,8 @@ public class MemberController {
 	public ResponseEntity<Void> updateProfile(@PathVariable("member") Long id,
 		@RequestBody UpdateProfileReqDto reqDto) {
 
+		// todo 로그인 구현 후 추가 로직 필요
+
 		memberService.updateMyProfile(id, reqDto);
 		return ResponseEntity.ok().build();
 	}
