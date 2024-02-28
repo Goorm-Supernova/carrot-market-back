@@ -19,4 +19,16 @@ public class Member {
     private String loginId;
     private Integer kakaoId;
 
+    public Member(Long id, String name, String nickName, String phoneNum, String address, Integer latitude,
+        Integer longitude, String loginId, Integer kakaoId) {
+        this.id = id;
+        this.name = name;
+        this.nickName = nickName;
+        this.phoneNum = phoneNum;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.loginId = loginId;
+        this.kakaoId = kakaoId;
+    }
 }
