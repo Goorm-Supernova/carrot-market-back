@@ -34,4 +34,13 @@ public class Member {
         this.loginId = loginId;
         this.kakaoId = kakaoId;
     }
+
+    public void updateProfile(String name, String nickName, String phoneNum, String address, Integer latitude, Integer longitude) {
+        this.name = name;
+        this.nickName = nickName;
+        this.phoneNum = phoneNum;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }
