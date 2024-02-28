@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.carrotMarket.dto.MemberResDto;
+import com.example.carrotMarket.dto.UpdateProfileReqDto;
 import com.example.carrotMarket.entity.member.Member;
 import com.example.carrotMarket.repository.MemberRepository;
 
@@ -42,6 +43,23 @@ class MemberServiceTest {
 		assertThat(result.getNickName()).isEqualTo("닉네임");
 		assertThat(result.getName()).isEqualTo("이름");
 
+	}
+
+	@DisplayName("프로필 수정 성공")
+	@Test
+	void successUpdateProfile() {
+	    //given
+		Long memberId = 1L;
+		UpdateProfileReqDto reqDto = new UpdateProfileReqDto("이름", "닉네임", "010-1234-5667", "주소", 1, 1);
+
+		given(memberRepository.findById(anyLong())).willReturn(
+			Optional.of(new Member(1L, "이름", "닉네임", "010-1234-5678", "주소", 1, 1, null, null)));
+
+		//when
+		memberService.updateMyProfile(memberId, reqDto);
+
+		//then
+		verify(memberRepository).findById(memberId);
 	}
 
 }
