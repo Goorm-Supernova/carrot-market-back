@@ -4,15 +4,18 @@ import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.member.Member;
 import com.example.carrotMarket.enums.Status;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Post {
-    @Id@GeneratedValue
+    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,6 +25,7 @@ public class Post {
     private String contents;
     private Status status;
 
+    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Img> images = new ArrayList<>();
 
