@@ -11,6 +11,11 @@ public class Like {
     private Long id;
     @ManyToOne
     private Member member;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
     private Post post;
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }
