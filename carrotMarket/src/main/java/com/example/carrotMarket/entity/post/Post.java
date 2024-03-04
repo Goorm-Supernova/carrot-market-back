@@ -1,5 +1,6 @@
 package com.example.carrotMarket.entity.post;
 
+import com.example.carrotMarket.entity.BaseEntity;
 import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.like.Like;
 import com.example.carrotMarket.entity.member.Member;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Post {
+public class Post extends BaseEntity {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

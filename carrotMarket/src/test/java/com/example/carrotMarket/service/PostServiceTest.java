@@ -43,11 +43,11 @@ class PostServiceTest {
                     .contents("contents" + i+11)
                     .build();
 
-            Img img1 = Img.builder().src("src" + i).build();
-            Img img2 = Img.builder().src("src" + i + 11).build();
+//            Img img1 = Img.builder().src("src" + i).build();
+//            Img img2 = Img.builder().src("src" + i + 11).build();
 
-            post1.addImage(img1);
-            post2.addImage(img2);
+//            post1.addImage(img1);
+//            post2.addImage(img2);
 
             member.addPost(post1);
             member.addPost(post2);

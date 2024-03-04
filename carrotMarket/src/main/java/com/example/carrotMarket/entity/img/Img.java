@@ -17,9 +17,16 @@ public class Img {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
-    private String src;
+
+    private String uploadFileName;
+    private String storeFileName;
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public Img(String uploadFileName, String storeFileName) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
     }
 }
