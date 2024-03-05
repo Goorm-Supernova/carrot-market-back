@@ -1,9 +1,8 @@
 package com.example.carrotMarket.service;
 
-import com.example.carrotMarket.dto.PostCreateDto;
-import com.example.carrotMarket.dto.PostResDto;
+import com.example.carrotMarket.dto.PostRequestDto;
+import com.example.carrotMarket.dto.PostResponseDto;
 import com.example.carrotMarket.entity.post.Post;
-import com.example.carrotMarket.enums.Status;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,21 +15,23 @@ import java.util.stream.Collectors;
 public interface PostService {
     Slice<Post> getPosts(Pageable pageable);
 
-    Long createPost(PostCreateDto postCreateDto, List<MultipartFile> multipartFiles) throws IOException;
+    Long createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFiles) throws IOException;
 
-    PostResDto getPost(Long id);
+    PostResponseDto getPost(Long id);
 
-    default Post createDtoToEntity(PostCreateDto postCreateDto) {
+    void updatePost(Long id, PostRequestDto postRequestDto, List<MultipartFile> multipartFiles);
+
+    default Post requestDtoToEntity(PostRequestDto postRequestDto) {
         return Post.builder()
-                .title(postCreateDto.getTitle())
-                .contents(postCreateDto.getContent())
-                .price(postCreateDto.getPrice())
-                .status(Status.SALE)
+                .title(postRequestDto.getTitle())
+                .contents(postRequestDto.getContent())
+                .price(postRequestDto.getPrice())
+                .status(postRequestDto.getStatus())
                 .build();
 
     }
 
-    default PostResDto entityToResponseDto(Post post) {
+    default PostResponseDto entityToResponseDto(Post post) {
         List<String> imageUrls = post.getImages().stream()
                 .map(img -> ServletUriComponentsBuilder.fromCurrentContextPath()
                         .path("/images/")
@@ -38,7 +39,7 @@ public interface PostService {
                         .toUriString())
                 .collect(Collectors.toList());
 
-        return PostResDto.builder()
+        return PostResponseDto.builder()
                 .title(post.getTitle())
                 .contents(post.getContents())
                 .price(post.getPrice())

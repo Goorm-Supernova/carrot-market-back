@@ -1,5 +1,5 @@
 package com.example.carrotMarket.enums;
 
 public enum Status {
-    SALE, BOOKED, COMPLETED
+    SALE, BOOKED, SOLD_OUT
 }

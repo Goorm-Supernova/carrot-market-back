@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostResDto {
+public class PostResponseDto {
     private String title;
     private String contents;
     private int price;

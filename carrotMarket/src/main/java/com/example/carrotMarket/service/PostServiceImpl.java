@@ -1,7 +1,7 @@
 package com.example.carrotMarket.service;
 
-import com.example.carrotMarket.dto.PostCreateDto;
-import com.example.carrotMarket.dto.PostResDto;
+import com.example.carrotMarket.dto.PostRequestDto;
+import com.example.carrotMarket.dto.PostResponseDto;
 import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.post.Post;
 import com.example.carrotMarket.repository.PostRepository;
@@ -15,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,9 +38,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Long createPost(PostCreateDto postCreateDto, List<MultipartFile> multipartFiles) throws IOException {
+    @Transactional
+    public Long createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFiles) throws IOException {
         List<Img> storeImageFiles = storeFiles(multipartFiles);
-        Post post = createDtoToEntity(postCreateDto);
+        Post post = requestDtoToEntity(postRequestDto);
         for (Img storeImageFile : storeImageFiles) {
             post.addImage(storeImageFile);
         }
@@ -45,9 +49,30 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResDto getPost(Long id) {
+    public PostResponseDto getPost(Long id) {
         Post post = postRepository.findById(id).orElseThrow();
         return entityToResponseDto(post);
+    }
+
+    @Override
+    @Transactional
+    public void updatePost(Long id, PostRequestDto postRequestDto, List<MultipartFile> multipartFiles) {
+        Post post = postRepository.findById(id).orElseThrow();
+        deleteFiles(post);
+        List<Img> images = storeFiles(multipartFiles);
+        post.update(postRequestDto.getTitle(), postRequestDto.getContent(), postRequestDto.getPrice(), postRequestDto.getStatus(), images);
+    }
+
+    private void deleteFiles(Post post) {
+        for (Img image : post.getImages()) {
+            String fullPath = getFullPath(image.getStoreFileName());
+            Path filePath = Paths.get(fullPath);
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 
@@ -55,7 +80,7 @@ public class PostServiceImpl implements PostService {
         return fileDir + filename;
     }
 
-    private List<Img> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
+    private List<Img> storeFiles(List<MultipartFile> multipartFiles) {
         List<Img> storeFileResult = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
@@ -65,14 +90,18 @@ public class PostServiceImpl implements PostService {
         return storeFileResult;
     }
 
-    private Img storeFile(MultipartFile multipartFile) throws IOException {
+    private Img storeFile(MultipartFile multipartFile) {
         if (multipartFile.isEmpty()) {
             return null;
         }
 
         String originalFileName = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFileName);
-        multipartFile.transferTo(new File(getFullPath(storeFileName)));
+        try {
+            multipartFile.transferTo(new File(getFullPath(storeFileName)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return new Img(originalFileName, storeFileName);
     }
 

@@ -1,7 +1,7 @@
 package com.example.carrotMarket.controller;
 
-import com.example.carrotMarket.dto.PostCreateDto;
-import com.example.carrotMarket.dto.PostResDto;
+import com.example.carrotMarket.dto.PostRequestDto;
+import com.example.carrotMarket.dto.PostResponseDto;
 import com.example.carrotMarket.entity.post.Post;
 import com.example.carrotMarket.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +30,10 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<?> createPost(
-            @RequestPart("post") PostCreateDto postCreateDto,
+            @RequestPart("post") PostRequestDto postRequestDto,
             @RequestPart("images") List<MultipartFile> images) throws IOException {
 
-        Long postId = postService.createPost(postCreateDto, images);
+        Long postId = postService.createPost(postRequestDto, images);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(postId)
@@ -43,7 +43,18 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public PostResDto getPost(@PathVariable("id") Long id) {
+    public PostResponseDto getPost(@PathVariable("id") Long id) {
         return postService.getPost(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updatePost(
+            @PathVariable("id") Long id,
+            @RequestPart("post") PostRequestDto postRequestDto,
+            @RequestPart("images") List<MultipartFile> images) {
+
+        postService.updatePost(id, postRequestDto, images);
+
+        return ResponseEntity.noContent().build();
     }
 }

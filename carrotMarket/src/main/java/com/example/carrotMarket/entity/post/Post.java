@@ -50,4 +50,17 @@ public class Post extends BaseEntity {
         likes.add(like);
         like.setPost(this);
     }
+
+    public void update(String title, String contents, int price, Status status, List<Img> images) {
+        this.title = title;
+        this.contents = contents;
+        this.price = price;
+        this.status = status;
+
+        this.images.clear();
+        for (Img image : images) {
+            this.addImage(image);
+        }
+
+    }
 }
