@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostResponseDto {
     private String title;
-    private String contents;
+    private String content;
     private int price;
     private Status status;
     private LocalDateTime createdAt;

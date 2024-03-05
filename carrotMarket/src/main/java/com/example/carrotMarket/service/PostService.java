@@ -26,7 +26,7 @@ public interface PostService {
     default Post requestDtoToEntity(PostRequestDto postRequestDto) {
         return Post.builder()
                 .title(postRequestDto.getTitle())
-                .contents(postRequestDto.getContent())
+                .content(postRequestDto.getContent())
                 .price(postRequestDto.getPrice())
                 .status(postRequestDto.getStatus())
                 .build();
@@ -43,7 +43,7 @@ public interface PostService {
 
         return PostResponseDto.builder()
                 .title(post.getTitle())
-                .contents(post.getContents())
+                .content(post.getContent())
                 .price(post.getPrice())
                 .status(post.getStatus())
                 .createdAt(post.getCreatedAt())

@@ -1,6 +1,7 @@
 package com.example.carrotMarket.entity.post;
 
 import com.example.carrotMarket.entity.BaseEntity;
+import com.example.carrotMarket.entity.comment.Comment;
 import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.like.Like;
 import com.example.carrotMarket.entity.member.Member;
@@ -24,7 +25,7 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
     private String title;
-    private String contents;
+    private String content;
     private int price;
     @Enumerated(value = EnumType.STRING)
     private Status status;
@@ -36,6 +37,10 @@ public class Post extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public void setMember(Member member) {
         this.member = member;
@@ -53,7 +58,7 @@ public class Post extends BaseEntity {
 
     public void update(String title, String contents, int price, Status status, List<Img> images) {
         this.title = title;
-        this.contents = contents;
+        this.content = contents;
         this.price = price;
         this.status = status;
 
