@@ -21,4 +21,5 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;
     private List<String> imageUrls;
+    private List<CommentResponseDto> comments;
 }

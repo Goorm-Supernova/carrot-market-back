@@ -1,6 +1,6 @@
 package com.example.carrotMarket.entity.comment;
 
-import com.example.carrotMarket.dto.CommentDto;
+import com.example.carrotMarket.entity.BaseEntity;
 import com.example.carrotMarket.entity.member.Member;
 import com.example.carrotMarket.entity.post.Post;
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

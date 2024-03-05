@@ -1,6 +1,6 @@
 package com.example.carrotMarket.service;
 
-import com.example.carrotMarket.dto.CommentDto;
+import com.example.carrotMarket.dto.CommentRequestDto;
 import com.example.carrotMarket.entity.comment.Comment;
 import com.example.carrotMarket.entity.post.Post;
 import com.example.carrotMarket.repository.CommentRepository;
@@ -18,11 +18,11 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     @Transactional
-    public Long createComment(Long postId, CommentDto commentDto) {
+    public Long createComment(Long postId, CommentRequestDto commentRequestDto) {
 
         Post post = postRepository.findById(postId).orElseThrow();
 
-        Comment comment = dtoToEntity(commentDto, post);
+        Comment comment = dtoToEntity(commentRequestDto, post);
 
         return commentRepository.save(comment).getId();
 
@@ -30,10 +30,10 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     @Transactional
-    public void updateComment(Long commentId, CommentDto commentDto) {
+    public void updateComment(Long commentId, CommentRequestDto commentRequestDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow();
 
-        comment.update(commentDto.getContent());
+        comment.update(commentRequestDto.getContent());
     }
 
     @Override

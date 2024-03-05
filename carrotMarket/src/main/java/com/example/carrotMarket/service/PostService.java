@@ -1,9 +1,7 @@
 package com.example.carrotMarket.service;
 
-import com.example.carrotMarket.dto.PostDto;
-import com.example.carrotMarket.dto.PostRequestDto;
-import com.example.carrotMarket.dto.PostResponseDto;
-import com.example.carrotMarket.dto.SliceResponse;
+import com.example.carrotMarket.dto.*;
+import com.example.carrotMarket.entity.comment.Comment;
 import com.example.carrotMarket.entity.post.Post;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +39,10 @@ public interface PostService {
                         .toUriString())
                 .collect(Collectors.toList());
 
+        List<CommentResponseDto> comments = post.getComments().stream()
+                .map(CommentResponseDto::new)
+                .collect(Collectors.toList());
+
         return PostResponseDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
@@ -49,6 +51,7 @@ public interface PostService {
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
                 .imageUrls(imageUrls)
+                .comments(comments)
                 .build();
     }
 

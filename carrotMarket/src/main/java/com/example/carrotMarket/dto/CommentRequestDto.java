@@ -3,6 +3,6 @@ package com.example.carrotMarket.dto;
 import lombok.Data;
 
 @Data
-public class CommentDto {
+public class CommentRequestDto {
     String content;
 }

@@ -1,6 +1,6 @@
 package com.example.carrotMarket.controller;
 
-import com.example.carrotMarket.dto.CommentDto;
+import com.example.carrotMarket.dto.CommentRequestDto;
 import com.example.carrotMarket.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,9 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<?> createComment(
             @PathVariable("postId") Long postId,
-            @RequestBody CommentDto commentDto) {
+            @RequestBody CommentRequestDto commentRequestDto) {
 
-        Long commentId = commentService.createComment(postId, commentDto);
+        Long commentId = commentService.createComment(postId, commentRequestDto);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -34,9 +34,9 @@ public class CommentController {
     @PutMapping("/{commentId}")
     public ResponseEntity<?> updateComment(
             @PathVariable("commentId") Long commentId,
-            @RequestBody CommentDto commentDto) {
+            @RequestBody CommentRequestDto commentRequestDto) {
 
-        commentService.updateComment(commentId, commentDto);
+        commentService.updateComment(commentId, commentRequestDto);
 
         return ResponseEntity.noContent().build();
     }

@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDto getPost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow();
+        Post post = postRepository.findPostWithComment(id).orElseThrow();
         return entityToResponseDto(post);
     }
 
