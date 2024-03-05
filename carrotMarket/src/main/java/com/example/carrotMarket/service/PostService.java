@@ -21,6 +21,8 @@ public interface PostService {
 
     void updatePost(Long id, PostRequestDto postRequestDto, List<MultipartFile> multipartFiles);
 
+    void deletePost(Long id);
+
     default Post requestDtoToEntity(PostRequestDto postRequestDto) {
         return Post.builder()
                 .title(postRequestDto.getTitle())

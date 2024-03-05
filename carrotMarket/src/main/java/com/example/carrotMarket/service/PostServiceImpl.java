@@ -63,6 +63,14 @@ public class PostServiceImpl implements PostService {
         post.update(postRequestDto.getTitle(), postRequestDto.getContent(), postRequestDto.getPrice(), postRequestDto.getStatus(), images);
     }
 
+    @Override
+    @Transactional
+    public void deletePost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow();
+        deleteFiles(post);
+        postRepository.deleteById(id);
+    }
+
     private void deleteFiles(Post post) {
         for (Img image : post.getImages()) {
             String fullPath = getFullPath(image.getStoreFileName());
