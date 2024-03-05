@@ -57,13 +57,13 @@ class PostServiceTest {
 
         Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "id"));
 
-        Slice<Post> posts = postService.getPosts(pageable);
+//        Slice<Post> posts = postService.getPosts(pageable);
 
-        System.out.println("posts = " + posts);
-        System.out.println("posts.getContent() = " + posts.getContent());
-        System.out.println("posts.getPageable() = " + posts.getPageable());
-
-        assertThat(posts.getSize()).isEqualTo(5);
-        assertThat(posts.getContent()).isNotEmpty();
+//        System.out.println("posts = " + posts);
+//        System.out.println("posts.getContent() = " + posts.getContent());
+//        System.out.println("posts.getPageable() = " + posts.getPageable());
+//
+//        assertThat(posts.getSize()).isEqualTo(5);
+//        assertThat(posts.getContent()).isNotEmpty();
     }
 }

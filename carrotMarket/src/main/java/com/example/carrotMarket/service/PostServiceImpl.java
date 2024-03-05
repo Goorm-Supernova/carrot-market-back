@@ -1,7 +1,9 @@
 package com.example.carrotMarket.service;
 
+import com.example.carrotMarket.dto.PostDto;
 import com.example.carrotMarket.dto.PostRequestDto;
 import com.example.carrotMarket.dto.PostResponseDto;
+import com.example.carrotMarket.dto.SliceResponse;
 import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.post.Post;
 import com.example.carrotMarket.repository.PostRepository;
@@ -21,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,13 +36,17 @@ public class PostServiceImpl implements PostService {
     private String fileDir;
 
     @Override
-    public Slice<Post> getPosts(Pageable pageable) {
-        return postRepository.findAllBy(pageable);
+    public SliceResponse<PostDto> getPosts(Pageable pageable) {
+        Slice<Post> slice = postRepository.findAllBy(pageable);
+        List<PostDto> postDtoList = slice.getContent().stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
+        return new SliceResponse<>(postDtoList, slice.hasNext());
     }
 
     @Override
     @Transactional
-    public Long createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFiles) throws IOException {
+    public Long createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFiles) {
         List<Img> storeImageFiles = storeFiles(multipartFiles);
         Post post = requestDtoToEntity(postRequestDto);
         for (Img storeImageFile : storeImageFiles) {

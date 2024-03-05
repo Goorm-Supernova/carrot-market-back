@@ -1,21 +1,21 @@
 package com.example.carrotMarket.service;
 
+import com.example.carrotMarket.dto.PostDto;
 import com.example.carrotMarket.dto.PostRequestDto;
 import com.example.carrotMarket.dto.PostResponseDto;
+import com.example.carrotMarket.dto.SliceResponse;
 import com.example.carrotMarket.entity.post.Post;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public interface PostService {
-    Slice<Post> getPosts(Pageable pageable);
+    SliceResponse<PostDto> getPosts(Pageable pageable);
 
-    Long createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFiles) throws IOException;
+    Long createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFiles);
 
     PostResponseDto getPost(Long id);
 
@@ -50,5 +50,24 @@ public interface PostService {
                 .lastModifiedAt(post.getLastModifiedAt())
                 .imageUrls(imageUrls)
                 .build();
+    }
+
+    default PostDto entityToDto(Post post) {
+        String storeFileName = post.getImages().getFirst().getStoreFileName();
+        String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/images/")
+                .path(storeFileName)
+                .toUriString();
+
+        return PostDto.builder()
+                .postId(post.getId())
+                .title(post.getTitle())
+                .price(post.getPrice())
+//                .address(post.getMember().getAddress())
+                .createdAt(post.getCreatedAt())
+                .lastModifiedAt(post.getLastModifiedAt())
+                .thumbnail(imageUrl)
+                .build();
+
     }
 }

@@ -5,18 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostsDto {
+public class PostDto {
     private Long postId;
     private String title;
-    private String content;
-    private int likeCount;
     private int price;
     private String address;
-    // TODO: 2/29/24 게시물 업로드 구현 후 thumbnail, create_date, update_date 추가
-    // TODO: 2/29/24 채팅 기능 구현 후 chatCnt 추가
+    private LocalDateTime createdAt;
+    private LocalDateTime lastModifiedAt;
+    private String thumbnail;
+    // TODO: 2/29/24 좋아요, 채팅 기능 구현 후 likeCnt, chatCnt 추가
 }
 
