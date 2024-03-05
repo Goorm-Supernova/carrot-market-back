@@ -1,6 +1,7 @@
 package com.example.carrotMarket.controller;
 
 import com.example.carrotMarket.dto.PostCreateDto;
+import com.example.carrotMarket.dto.PostResDto;
 import com.example.carrotMarket.entity.post.Post;
 import com.example.carrotMarket.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +40,10 @@ public class PostController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}")
+    public PostResDto getPost(@PathVariable("id") Long id) {
+        return postService.getPost(id);
     }
 }

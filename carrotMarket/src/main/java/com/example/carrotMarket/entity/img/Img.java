@@ -2,15 +2,13 @@ package com.example.carrotMarket.entity.img;
 
 import com.example.carrotMarket.entity.post.Post;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Getter
 public class Img {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

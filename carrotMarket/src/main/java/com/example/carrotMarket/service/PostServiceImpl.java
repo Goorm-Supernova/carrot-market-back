@@ -1,6 +1,7 @@
 package com.example.carrotMarket.service;
 
 import com.example.carrotMarket.dto.PostCreateDto;
+import com.example.carrotMarket.dto.PostResDto;
 import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.post.Post;
 import com.example.carrotMarket.repository.PostRepository;
@@ -42,6 +43,13 @@ public class PostServiceImpl implements PostService {
         }
         return postRepository.save(post).getId();
     }
+
+    @Override
+    public PostResDto getPost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow();
+        return entityToResponseDto(post);
+    }
+
 
     private String getFullPath(String filename) {
         return fileDir + filename;
