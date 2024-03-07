@@ -2,6 +2,11 @@ package com.example.carrotMarket.entity.like;
 
 import com.example.carrotMarket.entity.member.Member;
 import com.example.carrotMarket.entity.post.Post;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import com.querydsl.core.Fetchable;
 import jakarta.persistence.*;
 import lombok.*;
