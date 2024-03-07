@@ -1,11 +1,14 @@
 package com.example.carrotMarket.entity.member;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.carrotMarket.entity.like.Like;
+import com.example.carrotMarket.entity.post.Post;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,6 +24,12 @@ public class Member {
     private Integer longitude;
     private String loginId;
     private Integer kakaoId;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
 
     public Member(Long id, String name, String nickName, String phoneNum, String address, Integer latitude,
         Integer longitude, String loginId, Integer kakaoId) {
@@ -42,5 +51,10 @@ public class Member {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public void addPost(Post post) {
+        this.posts.add(post);
+        post.setMember(this);
     }
 }

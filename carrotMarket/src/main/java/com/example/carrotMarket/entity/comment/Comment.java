@@ -1,24 +1,17 @@
-package com.example.carrotMarket.entity.like;
+package com.example.carrotMarket.entity.comment;
 
+import com.example.carrotMarket.entity.BaseEntity;
 import com.example.carrotMarket.entity.member.Member;
 import com.example.carrotMarket.entity.post.Post;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import com.querydsl.core.Fetchable;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "likes")
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-public class Like {
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Comment extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -30,7 +23,13 @@ public class Like {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    private String content;
+
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public void update(String content) {
+        this.content = content;
     }
 }
