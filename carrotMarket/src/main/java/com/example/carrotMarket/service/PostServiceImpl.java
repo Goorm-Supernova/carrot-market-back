@@ -6,6 +6,7 @@ import com.example.carrotMarket.dto.PostResponseDto;
 import com.example.carrotMarket.dto.SliceResponse;
 import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.post.Post;
+import com.example.carrotMarket.repository.LikeRepository;
 import com.example.carrotMarket.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -58,7 +60,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto getPost(Long id) {
         Post post = postRepository.findPostWithComment(id).orElseThrow();
-        return entityToResponseDto(post);
+        int likeCnt = likeRepository.countLikesByPostId(id).intValue();
+        return entityToResponseDto(post, likeCnt);
     }
 
     @Override

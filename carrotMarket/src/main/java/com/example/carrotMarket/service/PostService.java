@@ -31,7 +31,7 @@ public interface PostService {
 
     }
 
-    default PostResponseDto entityToResponseDto(Post post) {
+    default PostResponseDto entityToResponseDto(Post post, int likeCnt) {
         List<String> imageUrls = post.getImages().stream()
                 .map(img -> ServletUriComponentsBuilder.fromCurrentContextPath()
                         .path("/images/")
@@ -48,10 +48,14 @@ public interface PostService {
                 .content(post.getContent())
                 .price(post.getPrice())
                 .status(post.getStatus())
+//                .memberId(post.getMember().getId())
+//                .nickName(post.getMember().getNickName())
+//                .address(post.getMember().getAddress())
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
                 .imageUrls(imageUrls)
                 .comments(comments)
+                .likeCnt(likeCnt)
                 .build();
     }
 
@@ -70,6 +74,7 @@ public interface PostService {
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
                 .thumbnail(imageUrl)
+                .likeCnt(post.getLikes().size())
                 .build();
 
     }

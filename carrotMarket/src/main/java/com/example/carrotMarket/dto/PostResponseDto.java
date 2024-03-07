@@ -18,8 +18,12 @@ public class PostResponseDto {
     private String content;
     private int price;
     private Status status;
+    private Long memberId;
+    private String nickName;
+    private String address;
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;
+    private int likeCnt;
     private List<String> imageUrls;
     private List<CommentResponseDto> comments;
 }

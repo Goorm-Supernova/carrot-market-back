@@ -5,6 +5,7 @@ import com.example.carrotMarket.dto.PostRequestDto;
 import com.example.carrotMarket.dto.PostResponseDto;
 import com.example.carrotMarket.dto.SliceResponse;
 import com.example.carrotMarket.entity.post.Post;
+import com.example.carrotMarket.service.LikeService;
 import com.example.carrotMarket.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final LikeService likeService;
 
     @GetMapping
     public SliceResponse<PostDto> getPosts(
@@ -77,5 +79,17 @@ public class PostController {
         postService.deletePost(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/likes")
+    public ResponseEntity<?> likePost(@PathVariable("id") Long id) {
+        likeService.likePost(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}/likes")
+    public ResponseEntity<?> cancelLike(@PathVariable("id") Long id) {
+        return null;
     }
 }
