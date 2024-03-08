@@ -18,13 +18,15 @@ public class Img {
 
     private String uploadFileName;
     private String storeFileName;
+    private String filePath;
 
     public void setPost(Post post) {
         this.post = post;
     }
 
-    public Img(String uploadFileName, String storeFileName) {
+    public Img(String uploadFileName, String storeFileName, String filePath) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
+        this.filePath = filePath;
     }
 }
