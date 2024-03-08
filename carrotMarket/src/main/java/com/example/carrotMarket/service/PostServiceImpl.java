@@ -8,7 +8,6 @@ import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.post.Post;
 import com.example.carrotMarket.repository.LikeRepository;
 import com.example.carrotMarket.repository.PostRepository;
-import com.example.carrotMarket.util.ImageUploader;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +33,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
-    private final ImageUploader imageUploader;
+    private final ImageFileService imageUploader;
 
     @Value("${file.dir}")
     private String fileDir;
