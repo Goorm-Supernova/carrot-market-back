@@ -1,11 +1,10 @@
 package com.example.carrotMarket.service;
 
 import com.example.carrotMarket.dto.*;
-import com.example.carrotMarket.entity.comment.Comment;
+import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.post.Post;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,10 +32,7 @@ public interface PostService {
 
     default PostResponseDto entityToResponseDto(Post post, int likeCnt) {
         List<String> imageUrls = post.getImages().stream()
-                .map(img -> ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/images/")
-                        .path(img.getStoreFileName())
-                        .toUriString())
+                .map(Img::getFilePath)
                 .collect(Collectors.toList());
 
         List<CommentResponseDto> comments = post.getComments().stream()
@@ -60,11 +56,8 @@ public interface PostService {
     }
 
     default PostDto entityToDto(Post post) {
-        String storeFileName = post.getImages().getFirst().getStoreFileName();
-        String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/images/")
-                .path(storeFileName)
-                .toUriString();
+
+        String imageUrl = post.getImages().get(0).getFilePath();
 
         return PostDto.builder()
                 .postId(post.getId())

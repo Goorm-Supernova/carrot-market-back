@@ -8,6 +8,8 @@ import com.example.carrotMarket.entity.img.Img;
 import com.example.carrotMarket.entity.post.Post;
 import com.example.carrotMarket.repository.LikeRepository;
 import com.example.carrotMarket.repository.PostRepository;
+import com.example.carrotMarket.util.ImageUploader;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,6 +34,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
+    private final ImageUploader imageUploader;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -115,12 +117,8 @@ public class PostServiceImpl implements PostService {
 
         String originalFileName = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFileName);
-        try {
-            multipartFile.transferTo(new File(getFullPath(storeFileName)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return new Img(originalFileName, storeFileName);
+        String filePath = imageUploader.uploadImage(multipartFile, storeFileName);
+        return new Img(originalFileName, storeFileName, filePath);
     }
 
     private String createStoreFileName(String originalFileName) {
